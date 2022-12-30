@@ -27,6 +27,6 @@ router.post(
   ToyProductsController.countQuantification
 );
 
-router.delete("/:id", ToyProductsController.deleteProduct);
+router.delete("/", ToyProductsController.deleteProduct);
 
 module.exports = router;

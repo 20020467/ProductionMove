@@ -2,9 +2,9 @@ import './sidebar.css';
 import { Link, NavLink } from 'react-router-dom';
 
 import Profile from '../../../../components/profile/profile';
-import { MdDashboard } from 'react-icons/md';
+import { FaWarehouse } from 'react-icons/fa';
 import { IoCarSport } from 'react-icons/io5';
-import { GiAutoRepair } from 'react-icons/gi';
+import { HiWrenchScrewdriver } from 'react-icons/hi2';
 import { FiLogOut } from 'react-icons/fi';
 import { VscGraphLine } from 'react-icons/vsc'
 import { FaBoxes } from 'react-icons/fa'
@@ -40,9 +40,16 @@ export default function Sidebar() {
                         </li >
                     </NavLink>
 
+                    <NavLink style={{ textDecoration: 'none' }} to='/warehouse'>
+                        <li title='warehouse'>
+                            <FaWarehouse className='icon3' />
+                            <span>Warehouse</span>
+                        </li >
+                    </NavLink>
+
                     <NavLink style={{ textDecoration: 'none' }} to='/defective'>
                         <li title='failure'>
-                            <GiAutoRepair className='icon3' />
+                            <HiWrenchScrewdriver className='icon3' />
                             <span>Failures</span>
                         </li >
                     </NavLink>
@@ -53,6 +60,7 @@ export default function Sidebar() {
                             <span>Orders</span>
                         </li >
                     </NavLink>
+
                 </ul>
 
             </div>

@@ -55,11 +55,26 @@ export default function Products() {
         rows[i].quantification = count[i]
       }
       }
-    const handleEditClick = (id) => () => {
-      setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-      console.log(rowModesModel)
+    const handleAddClick = (id) => () => {
+      const Item ={
+        idProductLine: id,
+        idFactory: JSON.parse(localStorage.user)._id,
+        idDistributor: "63ac7405f16230fc4346010b",
+        status: "New",
+        located: JSON.parse(localStorage.user)._id,
+        owner:"63ac53dab19a7b82d7307565"
+      }
+      const add = axios.post("http://localhost:8000/api/toyProduct/add",Item)
+      if(rows !== null){
+        for(var i = 0; i < rows.length; i++){
+          if(rows[i].id === id){
+            // console.log(typeof(rows[i].id))
+            rows[i].quantification++;
+          }
+        }
+      }
     };
-  
+
     const handleSaveClick = (id) => () => {
       console.log(rowModesModel);
       setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
@@ -83,144 +98,9 @@ export default function Products() {
       }
     };
   
-    // const [rows, setRows] = useState([
-    //   {
-    //     id:1,
-    //     name: "Vios",
-    //     quantification: 1000,
-    //     size: "4.885 x 1.840 x 1.445",
-    //     price:"700",
-    //     seats:"5",
-    //     engine:"1.5 turbo",
-    //     xylanh:"1.969cc",
-    //     hp:"640Nm",
-    //   },
-    //   {
-    //     id:2,
-    //     name: "Camry",
-    //     quantification: 1000,
-    //     size: "4.885 x 1.840 x 1.445",
-    //     price:"700",
-    //     seats:"5",
-    //     engine:"1.5 turbo",
-    //     xylanh:"1.969cc",
-    //     hp:"640Nm",
-    //   },
-    //   {
-    //     id:3,
-    //     name: "Altis",
-    //     quantification: 1000,
-    //     size: "4.885 x 1.840 x 1.445",
-    //     price:"700",
-    //     seats:"5",
-    //     engine:"1.5 turbo",
-    //     xylanh:"1.969cc",
-    //     hp:"640Nm",
-    //   },
-    //   {
-    //     id:4,
-    //     name: "Cross",
-    //     quantification: 1000,
-    //     size: "4.885 x 1.840 x 1.445",
-    //     price:"700",
-    //     seats:"5",
-    //     engine:"1.5 turbo",
-    //     xylanh:"1.969cc",
-    //     hp:"640Nm",
-    //   },
-    //   {
-    //     id:5,
-    //     name: "Hillux",
-    //     quantification: 1000,
-    //     size: "4.885 x 1.840 x 1.445",
-    //     price:"700",
-    //     seats:"5",
-    //     engine:"1.5 turbo",
-    //     xylanh:"1.969cc",
-    //     hp:"640Nm",
-    //   },
-    //   {
-    //     id:6,
-    //     name: "Fortuner",
-    //     quantification: 1000,
-    //     size: "4.885 x 1.840 x 1.445",
-    //     price:"700",
-    //     seats:"5",
-    //     engine:"1.5 turbo",
-    //     xylanh:"1.969cc",
-    //     hp:"640Nm",
-    //   },
-    //   {
-    //     id:7,
-    //     name: "Rav4",
-    //     quantification: 1000,
-    //     size: "4.885 x 1.840 x 1.445",
-    //     price:"700",
-    //     seats:"5",
-    //     engine:"1.5 turbo",
-    //     xylanh:"1.969cc",
-    //     hp:"640Nm",
-    //   },
-    //   {
-    //     id:8,
-    //     name: "Vios",
-    //     quantification: 1000,
-    //     size: "4.885 x 1.840 x 1.445",
-    //     prince:"700",
-    //     seats:"5",
-    //     engine:"1.5 turbo",
-    //     xylanh:"1.969cc",
-    //     hp:"640Nm",
-    //   },
-    //   {
-    //     id:9,
-    //     name: "Vios",
-    //     quantification: 1000,
-    //     size: "4.885 x 1.840 x 1.445",
-    //     price:"700",
-    //     seats:"5",
-    //     engine:"1.5 turbo",
-    //     xylanh:"1.969cc",
-    //     hp:"640Nm",
-    //   },
-    //   {
-    //     id:10,
-    //     name: "Vios",
-    //     quantification: 1000,
-    //     size: "4.885 x 1.840 x 1.445",
-    //     price:"700",
-    //     seats:"5",
-    //     engine:"1.5 turbo",
-    //     xylanh:"1.969cc",
-    //     hp:"640Nm",
-    //   },
-    //   {
-    //     id:11,
-    //     name: "Vios",
-    //     quantification: 1000,
-    //     size: "4.885 x 1.840 x 1.445",
-    //     price:"700",
-    //     seats:"5",
-    //     engine:"1.5 turbo",
-    //     xylanh:"1.969cc",
-    //     hp:"640Nm",
-    //   },
-    //   {
-    //     id:12,
-    //     name: "Vios",
-    //     quantification: 1000,
-    //     size: "4.885 x 1.840 x 1.445",
-    //     price:"700",
-    //     seats:"5",
-    //     engine:"1.5 turbo",
-    //     xylanh:"1.969cc",
-    //     hp:"640Nm",
-    //   },
-    // ]);
-  
     const columns = [
-      { title: "name", field: "name", width: 90, editable: false },
-      { title: "size", field: "size", width: 200, editable: false },
+      { title: "name", field: "name", width: 120, editable: false },
+      { title: "size", field: "size", width: 210, editable: false },
       { title: "price", field: "price", width: 120, editable: false },
       { title: "seats", field: "seats", width: 90, editable: false },
       { title: "engine", field: "engine", width: 120, editable: false },
@@ -235,29 +115,29 @@ export default function Products() {
         cellClassName: "actions",
         getActions: ({ id }) => {
           const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-          if (isInEditMode) {
-            return [
-              <GridActionsCellItem
-                icon={<SaveIcon />}
-                label="Save"
-                onClick={handleSaveClick(id)}
-              />,
-              <GridActionsCellItem
-                icon={<CancelIcon />}
-                label="Cancel"
-                className="textPrimary"
-                onClick={handleCancelClick(id)}
-                color="inherit"
-              />,
-            ];
-          }
+          // if (isInEditMode) {
+          //   return [
+          //     <GridActionsCellItem
+          //       icon={<SaveIcon />}
+          //       label="Save"
+          //       onClick={handleSaveClick(id)}
+          //     />,
+          //     <GridActionsCellItem
+          //       icon={<CancelIcon />}
+          //       label="Cancel"
+          //       className="textPrimary"
+          //       onClick={handleCancelClick(id)}
+          //       color="inherit"
+          //     />,
+          //   ];
+          // }
   
           return [
             <GridActionsCellItem
               icon={<AddIcon />}
               label="Add"
               className="textPrimary"
-              onClick={handleEditClick(id)}
+              onClick={handleAddClick(id)}
               color="inherit"
             />,
           ];

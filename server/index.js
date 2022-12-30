@@ -39,7 +39,6 @@ app.use("/api/productLine", productLineRoute);
 app.use("/api/toyProductLine", toyProductLineRoute);
 app.use("/api/toyProduct", toyProductRoute);
 app.use("/api/receipt", receiptRoute);
-
 app.use("/api/warranty", warrantyRoute);
 
 app.listen(8000, () => {

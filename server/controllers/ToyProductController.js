@@ -13,6 +13,18 @@ const ToyProductsController = {
     }
   },
 
+  deleteProduct: async (req, res) => {
+    try {
+      const find = ToyProducts.find({ owner: req.body.owner });
+      for (i = 0; i < find.length; i++) {
+        await ToyProducts.findOneAndDelete({ _id: find[i]._id });
+      }
+      res.status(200).json("xoa thanh cong");
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+
   // find all product
   getAllProduct: async (req, res) => {
     try {
@@ -249,9 +261,9 @@ const ToyProductsController = {
   // Update product
   updateProduct: async (req, res) => {
     try {
-      const ID = req.params.id;
+      const ID = req.body._id;
       const update = req.body;
-      const productUpdate = await Products.findOneAndUpdate(filter, update, {
+      const productUpdate = await Products.findByIdAndUpdate(ID, update, {
         new: true,
         upsert: true,
         rawResult: true, // Return the raw result from the MongoDB driver

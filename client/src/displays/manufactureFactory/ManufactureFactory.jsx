@@ -11,6 +11,7 @@ import Statistical from './pages/statistical/statistical';
 import Products from './pages/products/products';
 import Defectives from './pages/defectiveProducts/defective';
 import Orders from './pages/orders/order';
+import Warehouse from './pages/warehouse/warehouse';
 
 
 
@@ -23,6 +24,7 @@ export default function ServiceCenter() {
                     <Route path='/product' element = {<Products/>}/>
                     <Route path='/defective' element = {<Defectives/>}/>
                     <Route path='/orders' element = {<Orders/>}/>
+                    <Route path='/warehouse' element = {<Warehouse/>}/>
 
                 </Routes>
             </Router>
