@@ -12,6 +12,7 @@ const authroute = require("./routes/authRoutes");
 const productLineRoute = require("./routes/productLine");
 const toyProductLineRoute = require("./routes/toyProductLine");
 const toyProductRoute = require("./routes/toyProduct");
+const orderRoute = require("./routes/order");
 
 
 const warrantyRoute = require("./routes/warranty");
@@ -37,9 +38,8 @@ app.use("/api/product", productsRoute);
 app.use("/api/auth", authroute);
 app.use("/api/productLine",productLineRoute);
 app.use("/api/toyProductLine",toyProductLineRoute);
-app.use("/api/toyProduct",toyProductRoute)
-
-
+app.use("/api/toyProduct",toyProductRoute);
+app.use("/api/order",orderRoute);
 app.use("/api/warranty",warrantyRoute)
 
 app.listen(8000, () => {

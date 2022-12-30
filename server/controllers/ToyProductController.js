@@ -15,7 +15,10 @@ const ToyProductsController = {
 
   deleteProduct: async (req, res) => {
     try {
-        const productUpdate = await ToyProducts.deleteMany({owner: req.boby.owner}) 
+      const find = ToyProducts.find({owner: req.body.owner})
+      for (i=0; i<find.length; i++){
+        await ToyProducts.findOneAndDelete({_id : find[i]._id})
+      } 
       res.status(200).json("xoa thanh cong");
     } catch (error) {
       res.status(500).json(error);
