@@ -45,63 +45,30 @@ export default function Statistical() {
     };
     getStatus();
   }, []);
-  //63ac4caf27620028d068306b
-  console.log(dataManufacture);
 
   const dataStatisManufacture = [
-    { name: "Vios", grossProductLine: 50 },
-    { name: "Fortuner", grossProductLine: 20 },
+    { name: "Vios", grossProductLine: 20 },
+    { name: "Fortuner", grossProductLine: 10 },
     { name: "Raize", grossProductLine: 5 },
     { name: "Altis", grossProductLine: 10 },
-    { name: "Camry", grossProductLine: 10 },
+    { name: "Camry", grossProductLine: 13 },
+    { name: "Yaris", grossProductLine: 22 },
+  ];
+  const dataDistributor = [
+    { name: "Vios", grossProductLine: 30 },
+    { name: "Fortuner", grossProductLine: 20 },
+    { name: "Raize", grossProductLine: 15 },
+    { name: "Altis", grossProductLine: 10 },
+    { name: "Camry", grossProductLine: 19 },
     { name: "Yaris", grossProductLine: 10 },
   ];
-  const dataDistributor = [];
-  const dataServiceCenter = [];
-
-  const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      grossProduct: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 7400,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
+  const dataServiceCenter = [
+    { name: "Vios", grossProductLine: 2 },
+    { name: "Fortuner", grossProductLine: 5 },
+    { name: "Raize", grossProductLine: 5 },
+    { name: "Altis", grossProductLine: 7 },
+    { name: "Camry", grossProductLine: 9 },
+    { name: "Yaris", grossProductLine: 2 },
   ];
 
   return (
@@ -120,7 +87,7 @@ export default function Statistical() {
           <BarChart
             {...{
               title: Distributor,
-              data: dataStatisManufacture,
+              data: dataDistributor,
               dataKey: dataKeyProductLine,
             }}
           />
@@ -134,7 +101,7 @@ export default function Statistical() {
           <BarChart
             {...{
               title: ServiceCenter,
-              data: dataStatisManufacture,
+              data: dataServiceCenter,
               dataKey: dataKeyProductLine,
             }}
           />

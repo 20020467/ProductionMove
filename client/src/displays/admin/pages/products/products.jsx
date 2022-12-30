@@ -32,6 +32,8 @@ export default function Products() {
     getAllProduct();
   }, []);
 
+  console.log(rows);
+
   if (rows !== null) {
     for (var i = 0; i < rows.length; i++) {
       let nameO = rows[i].owner.name;
