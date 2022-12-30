@@ -7,6 +7,9 @@ router.put("/", ToyProductsController.updateProduct);
 
 router.get("/getAll", ToyProductsController.getAllProduct);
 router.post("/getInLocation", ToyProductsController.getAllProductInLocation);
+router.post("/getInSC", ToyProductsController.getAllProductInSC);
+router.post("/getDefectiveProduct", ToyProductsController.getDefectiveProduct);
+
 router.post("/countQuantification", ToyProductsController.countQuantification);
 router.get("/getAllTest", ToyProductsController.getAllTest);
 router.get("/getStatus", ToyProductsController.getStatusProduct);
@@ -28,6 +31,6 @@ router.get(
   ToyProductsController.countQuantification2
 );
 
-router.delete("/", ToyProductsController.deleteProduct);
+router.delete("/:id", ToyProductsController.deleteProduct);
 
 module.exports = router;

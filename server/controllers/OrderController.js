@@ -20,7 +20,21 @@ const OrderController = {
       res.status(500).json(error);
     }
   },
-
+  // find all order in each Location
+    getInLocation: async (req, res) => {
+      try {
+        const allProduct = await Order.find(
+          {
+            idFactory: req.body._id
+          }
+          )
+          .populate("idDistributor", "name")
+          // .populate("idProductLine", "name")
+        res.status(200).json(allProduct);
+      } catch (error) {
+        res.status(500).json(error);
+      }
+    },
   // Update 
   updateStatus: async (req, res) => {
     try {

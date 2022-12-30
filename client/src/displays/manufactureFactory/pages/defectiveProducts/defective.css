@@ -90,3 +90,11 @@ input[type="submit"] {
 input.submit:hover {
     background: rgb(146, 146, 146);
 }
+.css-1e2bxag-MuiDataGrid-root
+.MuiDataGrid-columnHeader--alignCenter
+div.MuiDataGrid-columnHeaderTitleContainer
+.css-1e2bxag-MuiDataGrid-root {
+-webkit-justify-content: center;
+justify-content: center;
+-webkit-box-pack: center;
+}

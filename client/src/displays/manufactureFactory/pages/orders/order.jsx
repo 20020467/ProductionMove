@@ -1,201 +1,156 @@
-import React from "react";
-import { useState } from "react";
 import Sidebar from "../sidebar/sidebar";
-import NavBar from "../../../../components/navbar/navbar";
+import Navbar from "../../../../components/navbar/navbar";
 import Table from "../../../../components/table/table";
 
 import "./order.css";
+import Looks3Icon from '@mui/icons-material/Looks3';
+import Looks4Icon from '@mui/icons-material/Looks4';
+import Looks5Icon from '@mui/icons-material/Looks5';
+import Looks2Icon from '@mui/icons-material/LooksTwo';
+import Looks1Icon from '@mui/icons-material/LooksOne';
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Close";
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
+
+import { GridActionsCellItem, GridRowModes } from "@mui/x-data-grid";
+
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 const Order = () => {
-  // const height = 631;
-  const height = 650;
-  const [rows, setRows] = useState([
-    {
-      id: 1,
-      name: "Đại lý 1",
-      email: "Dl1@gmail.com",
-      phone: 7894561230,
-      age: null,
-      gender: "M",
-      city: "Chennai",
-      fee: 78456,
-    },
-    {
-      id: 2,
-      name: "Đại lý 1",
-      email: "mohan@gmail.com",
-      phone: 7845621590,
-      age: 35,
-      gender: "M",
-      city: "Delhi",
-      fee: 456125,
-    },
-    {
-      id: 3,
-      name: "Sweety",
-      email: "sweety@gmail.com",
-      phone: 741852912,
-      age: 17,
-      gender: "F",
-      city: "Noida",
-      fee: 458796,
-    },
-    {
-      id: 4,
-      name: "Vikas",
-      email: "vikas@gmail.com",
-      phone: 9876543210,
-      age: 20,
-      gender: "M",
-      city: "Mumbai",
-      fee: 874569,
-    },
-    {
-      id: 5,
-      name: "Neha",
-      email: "neha@gmail.com",
-      phone: 7845621301,
-      age: 25,
-      gender: "F",
-      city: "Patna",
-      fee: 748521,
-    },
-    {
-      id: 6,
-      name: "Mohan",
-      email: "mohan@gmail.com",
-      phone: 7845621590,
-      age: 35,
-      gender: "M",
-      city: "Delhi",
-      fee: 456125,
-    },
-    {
-      id: 7,
-      name: "Sweety",
-      email: "sweety@gmail.com",
-      phone: 741852912,
-      age: 17,
-      gender: "F",
-      city: "Noida",
-      fee: 458796,
-    },
-    {
-      id: 8,
-      name: "Vikas",
-      email: "vikas@gmail.com",
-      phone: 9876543210,
-      age: 20,
-      gender: "M",
-      city: "Mumbai",
-      fee: 874569,
-    },
-    {
-      id: 9,
-      name: "Raj",
-      email: "Raj@gmail.com",
-      phone: 7894561230,
-      age: null,
-      gender: "M",
-      city: "Chennai",
-      fee: 78456,
-    },
-    {
-      id: 10,
-      name: "Mohan",
-      email: "mohan@gmail.com",
-      phone: 7845621590,
-      age: 35,
-      gender: "M",
-      city: "Delhi",
-      fee: 456125,
-    },
-    {
-      id: 11,
-      name: "Sweety",
-      email: "sweety@gmail.com",
-      phone: 741852912,
-      age: 17,
-      gender: "F",
-      city: "Noida",
-      fee: 458796,
-    },
-    {
-      id: 12,
-      name: "Vikas",
-      email: "vikas@gmail.com",
-      phone: 9876543210,
-      age: 20,
-      gender: "M",
-      city: "Mumbai",
-      fee: 874569,
-    },
-  ]);
+  const height = 631;
+  const [rowModesModel, setRowModesModel] = React.useState({});
+  const [rows, setRows] = useState([]);
+  useEffect(() => {
+    const getAllProduct = async () => {
+      try {
+        const res = await axios.post("http://localhost:8000/api/order/getInLocation",JSON.parse(localStorage.user));
+        setRows(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAllProduct();
+  }, []);
+
+  // if(rows !== null){
+
+  //   for(var i = 0; i < rows.length; i++){
+  //     rows[i].ProductLine = rows[i].idProductLine.name
+  //   }
+  //   }
+    if(rows !== null){
+
+      for(var i = 0; i < rows.length; i++){
+        rows[i].Distributor = rows[i].idDistributor.name
+      }
+      }
+    if(rows !== null){
+
+      for(var i = 0; i < rows.length; i++){
+        rows[i].id = rows[i]._id
+      }
+      }
+      const Dis =0
+  console.log(rows)
+  const handleDelClick = (id) => () => {
+    console.log(rowModesModel);
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
+
+  const handleDeleteClick = (id) => () => {
+    console.log(id);
+    setRows(rows.filter((row) => row.id !== id));
+  };
+
+  const handleCancelClick = (id) => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
+
+    const editedRow = rows.find((row) => row.id === id);
+    if (editedRow.isNew) {
+        setRows(rows.filter((row) => row.id !== id));
+      }
+  };
+  const handleDoneClick = (id) => () => {
+      var Item ={
+          _id: id,
+          status:"hoàn thành"
+      }
+      var update = axios.put("http://localhost:8000/api/order/",Item);
+      setRows(rows.filter((row) => row.status = "hoàn thành" ));
+  }
+  // const handleDeleteClick2 = (id) => () => {
+  //     var Item ={
+  //         _id: id,
+  //         idDistributor: Dis[0]._id,
+  //         located:Dis[0]._id
+  //     }
+  //     var update = axios.put("http://localhost:8000/api/order/",Item);
+  //     setRows(rows.filter((row) => row.id !== id));
+  // }
 
   const columns = [
-    { title: "Id", field: "id", width: 90, editable: true },
-    { title: "Name", field: "name", width: 120, editable: true },
-    { title: "Email", field: "email", width: 200, editable: true },
-    { title: "Phone Number", field: "phone", width: 120, editable: true },
-    { title: "City", field: "city", width: 120, editable: true },
-    { title: "School Fee", field: "fee", width: 90, editable: true },
+    { title: "id", field: "id", width: 250, editable: false },
+    { title: "Distributor", field: "Distributor", width: 100, editable: false },
+    { title: "ProductLine", field: "idProductLine", width: 250, editable: false },
+    { title: "quantity", field: "quantity", width: 100, editable: false },
+    { title: "status", field: "status", width: 160, editable: false },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 100,
+      cellClassName: "actions",
+      getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+        return [
+          <GridActionsCellItem
+            icon={<DoneAllIcon />}
+            label="Done"
+            className="textPrimary"
+            onClick={handleDoneClick(id)}
+            color="inherit"
+          />,
+          // <GridActionsCellItem
+          //   icon={<DeleteForeverIcon />}
+          //   label="Delete"
+          //   className="textPrimary"
+          //   onClick={handleDeleteClick(id)}
+          //   color="inherit"
+          // />,
+        ];
+      },
+    },
   ];
 
-  const [finalClickInfo, setFinalClickInfo] = useState(null);
-
-  const handleOnCellClick = (params) => {
-    setFinalClickInfo(params);
-  };
-  console.log(finalClickInfo);
 
   return (
-    <div className="order3">
+    <div className="products">
       <Sidebar />
-      <div className="wrapper3">
-        <NavBar />
-        <div className="orderWrapper3">
-          <div className="listOrder3">
-            <h4>Danh sánh đơn đặt hàng</h4>
-            <Table {...{ columns, rows, setRows, height, handleOnCellClick }} />
-          </div>
+      <div className="wrapper">
+        <Navbar />
+        <Table
+          {...{
+            columns,
+            rows,
+            setRows,
+            height,
 
-          <div className="mainOrder3">
-            <h4>Chi tiết đơn hàng</h4>
-            <div className="orderDetail3">
-              {!finalClickInfo && (
-                <>
-                  <div className="oderContent3">Chọn đơn hàng muốn xem</div>
-                </>
-              )}
-              {finalClickInfo && (
-                <>
-                  <div className="rowOrder firstRow3">
-                    <p className="fieldOrder">id : {finalClickInfo.id}</p>
-                  </div>
-                  <div className="rowOrder3">
-                    <p className="fieldOrder3">
-                      name : {finalClickInfo.row.name}
-                    </p>
-                  </div>
-                  <div className="rowOrder3">
-                    <p className="fieldOrder3">
-                      email : {finalClickInfo.row.email}
-                    </p>
-                  </div>
-                  <div className="rowOrder3">
-                    <p className="fieldOrder3">
-                      phone : {finalClickInfo.row.phone}
-                    </p>
-                  </div>
-                </>
-              )}
-            </div>
-            <button className="acceptOrder3">Accept order</button>
-          </div>
-        </div>
+            rowModesModel,
+            setRowModesModel,
+          }}
+        />
       </div>
     </div>
   );
-};
+}
 
 export default Order;

@@ -92,6 +92,9 @@ input {
 .signInInput {
     background-color: rgba(230, 235, 245, 0)!important;
     border-bottom: 1px solid #000000;
+    border-top: aqua;
+    border-right: aqua;
+    border-left: aqua;
     font-weight: 400;
     line-height: 1.5;
     color: #495057;

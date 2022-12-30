@@ -273,14 +273,39 @@ const ToyProductsController = {
       res.status(500).json(error);
     }
   },
-
+  // find all new product in ServiceCenter
+  getAllProductInSC: async (req, res) => {
+    try {
+      const allProduct = await Products.find(
+        {
+          located: req.body._id}
+        )
+        .populate("idProductLine", "name")
+      res.status(200).json(allProduct);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  // find all defective product in each Factory
+  getDefectiveProduct: async (req, res) => {
+    try {
+      const allProduct = await Products.find(
+        {
+          status: "Can't warranty",
+          located: req.body._id}
+        )
+        .populate("idProductLine", "name")
+      res.status(200).json(allProduct);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
   // delete product
   deleteProduct: async (req, res) => {
     try {
       const ID = req.params.id;
-      const filter = { id: ID };
-      const productUpdate = await Products.findOneAndDelete(filter);
-      res.status(200).json("xoa thanh cong");
+      const productUpdate = await Products.findOneAndDelete(ID);
+      res.status(200).json(productUpdate);
     } catch (error) {
       res.status(500).json(error);
     }

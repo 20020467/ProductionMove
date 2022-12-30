@@ -3,172 +3,133 @@ import Sidebar from "../sidebar/sidebar";
 import Navbar from "../../../../components/navbar/navbar";
 import Table from "../../../../components/table/table";
 
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+
+import Looks3Icon from '@mui/icons-material/Looks3';
+import Looks4Icon from '@mui/icons-material/Looks4';
+import Looks5Icon from '@mui/icons-material/Looks5';
+import Looks2Icon from '@mui/icons-material/LooksTwo';
+import Looks1Icon from '@mui/icons-material/LooksOne';
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+
+
 import { GridActionsCellItem, GridRowModes } from "@mui/x-data-grid";
 
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+export default function Warehouse() {
+    const height = 631;
+    const [rowModesModel, setRowModesModel] = React.useState({});
+    const [rows, setRows] = useState([]);
+    useEffect(() => {
+      const getAllProduct = async () => {
+        try {
+          const res = await axios.post("http://localhost:8000/api/toyProduct/getDefectiveProduct",JSON.parse(localStorage.user));
+          setRows(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getAllProduct();
+    }, []);
 
-export default function Products() {
-  const height = 631;
+    if(rows !== null){
 
-  const [rowModesModel, setRowModesModel] = React.useState({});
+      for(var i = 0; i < rows.length; i++){
+        rows[i].name = rows[i].idProductLine.name
+      }
+      }
+      if(rows !== null){
 
-  const handleEditClick = (id) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
+        for(var i = 0; i < rows.length; i++){
+          rows[i].id = rows[i]._id
+        }
+        }
 
-  const handleSaveClick = (id) => () => {
-    console.log(rowModesModel);
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-    console.log(rowModesModel[id]);
-  };
-
-  const handleDeleteClick = (id) => () => {
-    console.log(id);
-    setRows(rows.filter((row) => row.id !== id));
-  };
-
-  const handleCancelClick = (id) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
-
-    const editedRow = rows.find((row) => row.id === id);
-    if (editedRow.isNew) {
+    const handleDeleteClick = (id) => () => {
+      console.log(id);
       setRows(rows.filter((row) => row.id !== id));
-    }
-  };
+    };
+  
+    const handleCancelClick = (id) => () => {
+      setRowModesModel({
+        ...rowModesModel,
+        [id]: { mode: GridRowModes.View, ignoreModifications: true },
+      });
+  
+      const editedRow = rows.find((row) => row.id === id);
+      if (editedRow.isNew) {
+          setRows(rows.filter((row) => row.id !== id));
+        }
+    };
+    const handleDelClick = (id) => () => {
+      var index = 0;
+      for(let i = 0; i < rows.length; i++){
+          if(rows[i]._id == id){
+              index = i
+      }
+      console.log("http://localhost:8000/api/toyProduct/"+ rows[index]._id)
+      }
 
-  const [rows, setRows] = useState([
-    {
-      id: 1,
-      name: "Vios",
-      issues: "chay dau",
-
-    },
-    {
-      id: 2,
-      name: "Mohan",
-      issues: "noi cam bien",
-    },
-    {
-      id: 3,
-      name: "Sweety",
-      issues: "sweety@gmail.com",
-
-    },
-    {
-      id: 4,
-      name: "Vikas",
-      issues: "vikas@gmail.com",
-    },
-    {
-      id: 5,
-      name: "Neha",
-      issues: "neha@gmail.com",
-    },
-    {
-      id: 6,
-      name: "Mohan",
-      issues: "mohan@gmail.com",
-    },
-    {
-      id: 7,
-      name: "Sweety",
-      issues: "sweety@gmail.com",
-    },
-    {
-      id: 8,
-      name: "Vikas",
-      issues: "vikas@gmail.com",
-    },
-    {
-      id: 9,
-      name: "Raj",
-      issues: "Raj@gmail.com",
-    },
-    {
-      id: 10,
-      name: "Mohan",
-      issues: "mohan@gmail.com",
-    },
-    {
-      id: 11,
-      name: "Sweety",
-      issues: "sweety@gmail.com",
-    },
-    {
-      id: 12,
-      name: "Vikas",
-      issues: "vikas@gmail.com",
-    },
-  ]);
-
-  const columns = [
-    { title: "Id", field: "id", width: 90, editable: false },
-    { title: "Name", field: "name", width: 120, editable: false },
-    { title: "issues", field: "issues", width: 200, editable: false },
-    {
-      field: "actions",
-      type: "actions",
-      headerName: "Actions",
-      width: 100,
-      cellClassName: "actions",
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-        return [
-          <GridActionsCellItem
-            icon={<AutoFixHighIcon />}
-            label="Recycle"
-            className="textPrimary"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
-        ];
+      var update = axios.delete("http://localhost:8000/api/toyProduct/"+ rows[index]._id);
+      setRows(rows.filter((row) => row.id !== id));
+  }
+    const columns = [
+      { title: "id", field: "id", width: 300, editable: false },
+      { title: "name", field: "name", width: 120, editable: false },
+      { title: "status", field: "status", width: 210, editable: false },
+      {
+        field: "actions",
+        type: "actions",
+        headerName: "Actions",
+        width: 300,
+        cellClassName: "actions",
+        getActions: ({ id }) => {
+          const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+          return [
+            <GridActionsCellItem
+              icon={<AutoFixHighIcon />}
+              label="Add"
+              className="textPrimary"
+              onClick={handleDelClick(id)}
+              color="inherit"
+            />,
+            <GridActionsCellItem
+              icon={<DeleteForeverIcon />}
+              label="Add"
+              className="textPrimary"
+              onClick={handleDelClick(id)}
+              color="inherit"
+            />,
+          ];
+        },
       },
-    },
-  ];
+    ];
+  
+  
+    return (
+      <div className="products">
+        <Sidebar />
+        <div className="wrapper">
+          <Navbar />
+          <Table
+            {...{
+              columns,
+              rows,
+              setRows,
+              height,
 
-  const [showCreate, setShowCreate] = useState(false);
-
-  const toggleShowCreate = () => {
-    setShowCreate(!showCreate);
-  };
-
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
-  return (
-    <div className="products">
-      <Sidebar />
-      <div className="wrapper">
-        <Navbar />
-        <Table
-          {...{
-            columns,
-            rows,
-            setRows,
-            height,
-
-            rowModesModel,
-            setRowModesModel,
-          }}
-        />
+              rowModesModel,
+              setRowModesModel,
+            }}
+          />
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+  

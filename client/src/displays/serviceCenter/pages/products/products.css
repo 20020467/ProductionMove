@@ -10,45 +10,83 @@
 }
 
 .mainProduct {
-    display: flex;
-    flex-direction: column;
+    margin-top: 20px;
+    
 }
 
-.searchProduct {
-    float: right;
-    margin-right: 60px;
-    margin-bottom: 20px;
-
+.addProduct {
     display: flex;
-    align-items: center;
-    border: 0.5px solid lightgray;
+    width: 70%;
+    justify-content:flex-start;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.addProduct > button {
     border-radius: 10px;
-    padding: 3px;
-    background: rgba(255, 255, 255, 0.54);
-
+    height: 50px;
+    width: 100px;
+    border: 0.5px solid lightgray;
 }
 
-input {
-    border: none;
-    outline: none;
-    background: rgba(255, 255, 255, 0.54);
-
+.addProduct > button:hover {
+    background: lightgray;
 }
 
-input[placeholder] {
-    padding-left: 10px;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-.searchIcon {
-    color: #7451f8;
-    font-size: 20px;
+.modelProduct, .overlayProduct {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+} 
+
+.overlayProduct {
+    background: rgba(49,49,49,0.8);
+}
+.modelProduct {
+    animation: fadeIn ease-in 0.3s;
 }
 
-.listProduct {
-    margin-left: 20px;
-    margin-right: 20px;
+.contentProduct {
+    transform: translate(-50%, -50%);
+}
+
+.row {
+    margin-top: 10px;
+}
+
+label > input, label > select {
+    border-radius: 10px;
+    height: 40px;
+    margin-top: 5px !important;
+}
+
+label > select {
+    height: 40px;
+    padding: 6px;
 }
 
 
-
-
+input.submit:hover {
+    background: rgb(146, 146, 146);
+}
+.css-1e2bxag-MuiDataGrid-root
+.MuiDataGrid-columnHeader--alignCenter
+div.MuiDataGrid-columnHeaderTitleContainer
+.css-1e2bxag-MuiDataGrid-root {
+-webkit-justify-content: center;
+justify-content: center;
+-webkit-box-pack: center;
+}
