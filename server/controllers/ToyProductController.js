@@ -70,13 +70,14 @@ const ToyProductsController = {
     }
   },
 
-  // find all product in distributor
+  // find all new product in Location
   getAllProductInLocation: async (req, res) => {
     try {
       const allProduct = await Products.find(
         { status: "New",
           located: req.body._id}
-        );
+        )
+        .populate("idProductLine", "name")
       res.status(200).json(allProduct);
     } catch (error) {
       res.status(500).json(error);
@@ -113,9 +114,9 @@ const ToyProductsController = {
   // Update product
   updateProduct: async (req, res) => {
     try {
-      const ID = req.params.id;
+      const ID = req.body._id;
       const update = req.body;
-      const productUpdate = await Products.findOneAndUpdate(filter, update, {
+      const productUpdate = await Products.findByIdAndUpdate(ID, update, {
         new: true,
         upsert: true,
         rawResult: true, // Return the raw result from the MongoDB driver
