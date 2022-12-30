@@ -22,9 +22,10 @@ router.get(
   ToyProductsController.getAllProductInLocation2
 );
 
-router.post(
-  "/countQuantification/:id",
-  ToyProductsController.countQuantification
+router.get("/countQuantification", ToyProductsController.countQuantification);
+router.get(
+  "/countQuantification2/:id",
+  ToyProductsController.countQuantification2
 );
 
 router.delete("/", ToyProductsController.deleteProduct);

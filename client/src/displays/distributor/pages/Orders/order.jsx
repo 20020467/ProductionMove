@@ -27,7 +27,7 @@ const Order = () => {
     const getAllProductLine = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8000/api/toyProductLine/getAll"
+          "http://localhost:8000/api/receipt/getAllReceipt"
         );
         setRows(res.data);
       } catch (error) {
@@ -36,16 +36,44 @@ const Order = () => {
     };
     getAllProductLine();
   }, []);
+  console.log(rows);
+
+  if (rows !== null) {
+    for (var i = 0; i < rows.length; i++) {
+      let nameD = rows[i].idDistributor.name;
+      rows[i].Distributor = nameD;
+    }
+  }
+  if (rows !== null) {
+    for (var i = 0; i < rows.length; i++) {
+      let nameO = rows[i].idCustomer.name;
+      rows[i].Customer = nameO;
+    }
+  }
 
   const columns = [
-    { headerName: "Id", field: "_id", width: 250, editable: true },
-    { headerName: "Name", field: "name", width: 120, editable: true },
-    { headerName: "Size", field: "size", width: 200, editable: true },
+    { headerName: "Id Product", field: "_id", width: 240, editable: true },
+    { headerName: "Customer", field: "Customer", width: 120, editable: true },
+    {
+      headerName: "Distributor",
+      field: "Distributor",
+      width: 120,
+      editable: true,
+    },
     { headerName: "Price", field: "price", width: 120, editable: true },
-    { headerName: "Seats", field: "seats", width: 120, editable: true },
-    { headerName: "Engine", field: "engine", width: 120, editable: true },
-    { headerName: "Xylanh", field: "xylanh", width: 120, editable: true },
-    { headerName: "Hp", field: "hp", width: 120, editable: true },
+    {
+      headerName: "Order Date",
+      field: "orderDate",
+      width: 120,
+      editable: true,
+    },
+    {
+      headerName: "Completion Date",
+      field: "completionDate",
+      width: 120,
+      editable: true,
+    },
+    { headerName: "Status", field: "status", width: 150, editable: true },
   ];
 
   const [finalClickInfo, setFinalClickInfo] = useState(null);
@@ -77,25 +105,42 @@ const Order = () => {
               {finalClickInfo && (
                 <>
                   <div className="rowOrder firstRow">
-                    <p className="fieldOrder">id : {finalClickInfo.id}</p>
+                    <p className="fieldOrder">id : {finalClickInfo._id}</p>
                   </div>
                   <div className="rowOrder">
                     <p className="fieldOrder">
-                      name : {finalClickInfo.row.name}
+                      ID Product : {finalClickInfo.row.idProduct}
                     </p>
                   </div>
                   <div className="rowOrder">
                     <p className="fieldOrder">
-                      email : {finalClickInfo.row.email}
+                      Customer : {finalClickInfo.row.idCustomer.name}
                     </p>
                   </div>
                   <div className="rowOrder">
                     <p className="fieldOrder">
-                      phone : {finalClickInfo.row.phone}
+                      Distributor : {finalClickInfo.row.idDistributor.name}
                     </p>
                   </div>
                   <div className="rowOrder">
-                    <p className="fieldOrder">age : {finalClickInfo.row.age}</p>
+                    <p className="fieldOrder">
+                      Price : {finalClickInfo.row.price}
+                    </p>
+                  </div>
+                  <div className="rowOrder">
+                    <p className="fieldOrder">
+                      Order date : {finalClickInfo.row.orderDate}
+                    </p>
+                  </div>
+                  <div className="rowOrder">
+                    <p className="fieldOrder">
+                      Completion Date : {finalClickInfo.row.completionDate}
+                    </p>
+                  </div>
+                  <div className="rowOrder">
+                    <p className="fieldOrder">
+                      Status : {finalClickInfo.row.status}
+                    </p>
                   </div>
                 </>
               )}

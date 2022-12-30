@@ -31,7 +31,6 @@ const Products = () => {
     };
     getAllProduct();
   }, []);
-  console.log(JSON.parse(localStorage.user));
 
   if (rows !== null) {
     for (var i = 0; i < rows.length; i++) {
@@ -63,8 +62,6 @@ const Products = () => {
       rows[i].Location = nameL;
     }
   }
-
-  console.log(rows);
 
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });

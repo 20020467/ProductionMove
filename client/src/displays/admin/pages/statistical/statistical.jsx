@@ -35,7 +35,7 @@ export default function Statistical() {
     const getStatus = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8000/api/toyProduct/countQuantification",
+          "http://localhost:8000/api/toyProduct/countQuantification/",
           { _id: "63ac4caf27620028d068306b" }
         );
         setDataManufacture(res.data);
@@ -49,11 +49,12 @@ export default function Statistical() {
   console.log(dataManufacture);
 
   const dataStatisManufacture = [
-    { name: "Lexus", grossProductLine: 50 },
-    { name: "Toyota", grossProductLine: 20 },
-    { name: "Honda", grossProductLine: 5 },
-    { name: "Suzuki", grossProductLine: 10 },
-    { name: "Rolls-royce", grossProductLine: 10 },
+    { name: "Vios", grossProductLine: 50 },
+    { name: "Fortuner", grossProductLine: 20 },
+    { name: "Raize", grossProductLine: 5 },
+    { name: "Altis", grossProductLine: 10 },
+    { name: "Camry", grossProductLine: 10 },
+    { name: "Yaris", grossProductLine: 10 },
   ];
   const dataDistributor = [];
   const dataServiceCenter = [];

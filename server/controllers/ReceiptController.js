@@ -14,7 +14,9 @@ const ReceiptController = {
 
   getAllReceipt: async (req, res) => {
     try {
-      const allReceipt = await Receipt.find();
+      const allReceipt = await Receipt.find()
+        .populate("idCustomer", "name")
+        .populate("idDistributor", "name");
       res.status(200).json(allReceipt);
     } catch (error) {
       res.status(500).json(error);

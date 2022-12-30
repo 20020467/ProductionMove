@@ -63,7 +63,7 @@ export default function Products() {
     }
   }
 
-  console.log(rows);
+  // console.log(rows);
 
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
