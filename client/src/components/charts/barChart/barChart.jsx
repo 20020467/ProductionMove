@@ -15,7 +15,7 @@ const barChart = ({ title, data, dataKey }) => {
     <div className="chart">
       <BarChart
         className="chartMain"
-        width={500}
+        width={570}
         height={280}
         data={data}
         margin={{

@@ -26,18 +26,19 @@ const Table = ({
   };
 
   const processRowUpdate = async (newRow) => {
-    // console.log(newRow);
+    console.log(newRow);
     try {
       const res = await axios.put(
-        "http://localhost:8000/api/product/" + newRow.id,
+        "http://localhost:8000/api/toyProduct/",
         newRow
       );
       console.log(res.data);
     } catch (error) {
       console.log(error);
     }
+
     const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+    setRows(rows.map((row) => (row._id === newRow._id ? updatedRow : row)));
     return updatedRow;
   };
 
@@ -57,7 +58,7 @@ const Table = ({
           className="datagid"
           columns={columns}
           rows={rows}
-          getRowId={rows.id}
+          getRowId={(row) => row._id}
           pagination
           pageSize={pageSize}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
