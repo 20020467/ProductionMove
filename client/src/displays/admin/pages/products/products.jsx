@@ -12,7 +12,6 @@ import { GridActionsCellItem, GridRowModes } from "@mui/x-data-grid";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 
 export default function Products() {
   const height = 631;
@@ -22,7 +21,9 @@ export default function Products() {
   useEffect(() => {
     const getAllProduct = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/product/getAll");
+        const res = await axios.get(
+          "http://localhost:8000/api/toyProduct/getAll"
+        );
         setRows(res.data);
       } catch (error) {
         console.log(error);
@@ -30,81 +31,40 @@ export default function Products() {
     };
     getAllProduct();
   }, []);
-  let renameKeys = (keysMap, object) =>
-  Object.keys(object).reduce(
-    (acc, key) => ({
-      ...acc,
-      ...{ [keysMap[key] || key]: object[key] },
-    }),
-    {}
-  );
-  if( rows.length !== null && rows !== null){
-  for(var i = 0; i < rows.length; i++){
-    rows[i] = renameKeys(
-      {
-        _id: "id"
-      },
-      rows[i]
-    );
-      console.log(rows[i])
-  }}
-  if(rows !== null){
 
-    for(var i = 0; i < rows.length; i++){
-      // let nameD = rows[i].idDistributor.name
-      // rows[i].Distributor = nameD
-      let nameO = rows[i].owner.name
-      rows[i].Owner = nameO
-      // let nameF = rows[i].idFactory.name
-      // rows[i].Factory = nameF
-
-      // let nameF = rows[i].idFactory.name
-      // let obj1 = {
-      //   Distributor: nameD,
-      //   owner: nameO,
-      //   idFactory: nameF
-      // };
-      // let obj2 = {
-      //  idFactory: nameF
-      // };
-      //  let obji = rows[i]
-        // rows[i] = {
-        //     ...obji,
-        //     ...obj1,            
-        //   }
-      //  let obji2 = rows[i]
-      //   rows[i] = {
-      //       ...obji2,
-      //       ...obj2,            
-      //     }
-
+  if (rows !== null) {
+    for (var i = 0; i < rows.length; i++) {
+      let nameO = rows[i].owner.name;
+      rows[i].Owner = nameO;
     }
+  }
+  if (rows !== null) {
+    for (var i = 0; i < rows.length; i++) {
+      let nameD = rows[i].idDistributor.name;
+      rows[i].Distributor = nameD;
     }
-    if(rows !== null){
+  }
+  if (rows !== null) {
+    for (var i = 0; i < rows.length; i++) {
+      let nameF = rows[i].idFactory.name;
+      rows[i].Factory = nameF;
+    }
+  }
+  if (rows !== null) {
+    for (var i = 0; i < rows.length; i++) {
+      let nameL = rows[i].idProductLine.name;
+      rows[i].ProductLine = nameL;
+    }
+  }
+  if (rows !== null) {
+    for (var i = 0; i < rows.length; i++) {
+      let nameL = rows[i].located.name;
+      rows[i].Location = nameL;
+    }
+  }
 
-      for(var i = 0; i < rows.length; i++){
-        let nameD = rows[i].idDistributor.name
-        rows[i].Distributor = nameD
-        // let nameO = rows[i].owner.name
-        // rows[i].Owner = nameO
-        // let nameF = rows[i].idFactory.name
-        // rows[i].Factory = nameF
-      }
-      }
-      if(rows !== null){
+  console.log(rows);
 
-        for(var i = 0; i < rows.length; i++){
-          let nameF = rows[i].idFactory.name
-          rows[i].Factory = nameF
-        }
-        }
-        if(rows !== null){
-
-          for(var i = 0; i < rows.length; i++){
-            let nameL= rows[i].location.name
-            rows[i].Location = nameL
-          }
-          }
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
@@ -131,18 +91,17 @@ export default function Products() {
   };
 
   const columns = [
-    { title: "id", field: "id", width: 250, editable: false },
     {
-      title: "Name",
-      headerName: "Name",
-      field: "name",
-      width: 120,
-      editable: true,
+      title: "id",
+      headerName: "ID",
+      field: "_id",
+      width: 230,
+      editable: false,
     },
     {
-      title: "Color",
-      headerName: "Color",
-      field: "color",
+      title: "ProductLine",
+      headerName: "ProductLine",
+      field: "ProductLine",
       width: 120,
       editable: true,
     },
@@ -157,14 +116,23 @@ export default function Products() {
       title: "Distributor",
       headerName: "Distributor",
       field: "Distributor",
-      width: 120,
+      width: 110,
       editable: true,
     },
     {
       title: "Status",
       headerName: "Status",
       field: "status",
-      width: 120,
+      type: "singleSelect",
+      valueOptions: [
+        "New",
+        "Selling",
+        "Out Warranty",
+        "Warranty",
+        "Warranty Complete",
+        "Recall",
+      ],
+      width: 150,
       editable: true,
     },
     {
@@ -226,53 +194,12 @@ export default function Products() {
     },
   ];
 
-  // const [showCreate, setShowCreate] = useState(false);
-
-  // const toggleShowCreate = () => {
-  //   setShowCreate(!showCreate);
-  // };
-
-  // const { register, handleSubmit } = useForm();
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  // };
-
   return (
     <div className="products">
       <Sidebar />
       <div className="wrapper">
         <Navbar />
-        {/* <div className="addProduct">
-          <button onClick={toggleShowCreate}>Add Product</button>
-        </div> */}
-        {/* {showCreate && (
-          <div className="model">
-            <div onClick={toggleShowCreate} className="overlay"></div>
-            <form className="content" onSubmit={handleSubmit(onSubmit)}>
-              <label className="row">
-                Name
-                <input {...register("name")} placeholder="enter name" />
-              </label>
-              <label className="row">
-                Username
-                <input {...register("username")} placeholder="enter username" />
-              </label>
-              <label className="row">
-                Email
-                <input {...register("email")} placeholder="enter email" />
-              </label>
-              <label className="row">
-                Type Account
-                <select {...register("gender")}>
-                  <option value="female">female</option>
-                  <option value="male">male</option>
-                  <option value="other">other</option>
-                </select>
-              </label>
-              <input className="submit" type="submit" />
-            </form>
-          </div>
-        )} */}
+
         <Table
           {...{
             columns,

@@ -60,10 +60,93 @@ const ProductsController = {
     }
   },
 
-  // find all product in distributor
-  getAllProductInDistributor: async (req, res) => {
+  // find all product in Location
+  getAllProductInLocation: async (req, res) => {
     try {
-      const allProduct = await Products.find({ status: "distributor" });
+      const allProduct = await Products.find({ location: req.params.id });
+      res.status(200).json(allProduct);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+
+  // get status
+  getStatusProduct: async (req, res) => {
+    try {
+      const newStatus = await Products.find({
+        status: "New",
+      });
+      const sellStatus = await Products.find({
+        status: "Selling",
+      });
+      const timeOutStatus = await Products.find({
+        status: "Out Warranty",
+      });
+      const warrantStatus = await Products.find({
+        status: "Warranty",
+      });
+      const warrantedStatus = await Products.find({
+        status: "Warranty Complete",
+      });
+      const recallStatus = await Products.find({
+        status: "Recall",
+      });
+      const result = [];
+      result.push(
+        { name: "New", grossProduct: newStatus.length },
+        { name: "Selling", grossProduct: sellStatus.length },
+        { name: "OutWarranty", grossProduct: timeOutStatus.length },
+        { name: "Warranty", grossProduct: warrantStatus.length },
+        { name: "Warranted", grossProduct: warrantedStatus.length },
+        { name: "Recall", grossProduct: recallStatus.length }
+      );
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+
+  getDataProductLine: async (req, res) => {
+    try {
+      //   const allToyota = await Products.find({
+      //     name: "Toyota",
+      //     located: req.params.id,
+      //   });
+
+      //   const allLexus = await Products.find({
+      //     name: "Lexus",
+      //     located: req.params.id,
+      //   });
+      //   const allHonda = await Products.find({
+      //     name: "Honda",
+      //     located: req.params.id,
+      //   });
+      //   const allSuzuki = await Products.find({
+      //     name: "Suzuki",
+      //     located: req.params.id,
+      //   });
+      //   const allRollsRoyce = await Products.find({
+      //     name: "Rolls-royce",
+      //     located: req.params.id,
+      //   });
+      //   const result = [];
+      //   result.push(
+      //     {
+      //       name: "Toyota",
+      //       grossProductLine: allToyota.length,
+      //     },
+      //     { name: "Lexus", grossProductLine: allLexus.length },
+      //     { name: "Honda", grossProductLine: allHonda.length },
+      //     { name: "Suzuki", grossProductLine: allSuzuki.length },
+      //     { name: "Rolls-royce", grossProductLine: allRollsRoyce.length }
+      //   );
+      const allProduct = await Products.find()
+        .populate("idFactory", "name")
+        .populate("idDistributor", "name")
+        .populate("idProductLine", "name")
+        .populate("location", "name")
+        .populate("owner", "name");
+
       res.status(200).json(allProduct);
     } catch (error) {
       res.status(500).json(error);

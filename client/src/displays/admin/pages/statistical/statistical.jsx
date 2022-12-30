@@ -2,6 +2,8 @@ import "./statistical.css";
 import Sidebar from "../sidebar/sidebar";
 import Navbar from "../../../../components/navbar/navbar";
 import BarChart from "../../../../components/charts/barChart/barChart";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Statistical() {
   const ManufactureFactory = "Cơ sở sản xuất";
@@ -12,16 +14,41 @@ export default function Statistical() {
   const dataKeyProduct = "grossProduct";
   const dataKeyProductLine = "grossProductLine";
 
-  const dataProduct = [
-    { name: "New", grossProduct: 50 },
-    { name: "Sold", grossProduct: 20 },
-    { name: "warrant", grossProduct: 5 },
-    { name: "warranted", grossProduct: 10 },
-    { name: "TimeOut", grossProduct: 10 },
-    { name: "Recall", grossProduct: 7 },
-  ];
+  const [dataProduct, setDataProduct] = useState([]);
+  const [dataManufacture, setDataManufacture] = useState([]);
 
-  const dataManufacture = [
+  useEffect(() => {
+    const getStatus = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8000/api/toyProduct/getStatus"
+        );
+        setDataProduct(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getStatus();
+  }, []);
+
+  useEffect(() => {
+    const getStatus = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8000/api/toyProduct/countQuantification",
+          { _id: "63ac4caf27620028d068306b" }
+        );
+        setDataManufacture(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getStatus();
+  }, []);
+  //63ac4caf27620028d068306b
+  console.log(dataManufacture);
+
+  const dataStatisManufacture = [
     { name: "Lexus", grossProductLine: 50 },
     { name: "Toyota", grossProductLine: 20 },
     { name: "Honda", grossProductLine: 5 },
@@ -92,21 +119,21 @@ export default function Statistical() {
           <BarChart
             {...{
               title: Distributor,
-              data: dataManufacture,
+              data: dataStatisManufacture,
               dataKey: dataKeyProductLine,
             }}
           />
           <BarChart
             {...{
               title: ManufactureFactory,
-              data: dataManufacture,
+              data: dataStatisManufacture,
               dataKey: dataKeyProductLine,
             }}
           />
           <BarChart
             {...{
               title: ServiceCenter,
-              data: dataManufacture,
+              data: dataStatisManufacture,
               dataKey: dataKeyProductLine,
             }}
           />

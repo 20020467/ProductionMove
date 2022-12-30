@@ -7,157 +7,93 @@ import Product from "../../../../components/product/product";
 import { BiSearchAlt2 } from "react-icons/bi";
 
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 export default function AccountManagement() {
-  const height = 631;
+  const height = 615;
   const [showCreate, setShowCreate] = useState(false);
+  const [errorUsername, setErrorUsername] = useState(false);
+  const [rows, setRows] = useState([]);
 
   const toggleShowCreate = () => {
     setShowCreate(!showCreate);
   };
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm({
+    mode: "onTouched",
+  });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    for (var i = 0; i < rows.length; i++) {
+      if (rows[i].username === data.username) {
+        setErrorUsername(true);
+        break;
+      } else {
+        setErrorUsername(false);
+      }
+    }
+    console.log(errorUsername);
+    try {
+      if (errorUsername === false) {
+        const res = await axios.post(
+          "http://localhost:8000/api/account/add",
+          data
+        );
+        console.log(res);
+        console.log("gui dlieu");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    // try {
+    //   const res = axios.post("http://localhost:8000/api/account/add", data);
+    //   // if (res.data.status === "Account already exists") {
+    //   //   setErrorUsername(true);
+    //   // } else {
+    //   //   alert("dang ky thanh cong");
+    //   // }
+    //   console.log(res);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
-  const [rows, setRows] = useState([
-    {
-      id: 1,
-      name: "Raj",
-      email: "Raj@gmail.com",
-      phone: 7894561230,
-      age: null,
-      gender: "M",
-      city: "Chennai",
-      fee: 78456,
-    },
-    {
-      id: 2,
-      name: "Mohan",
-      email: "mohan@gmail.com",
-      phone: 7845621590,
-      age: 35,
-      gender: "M",
-      city: "Delhi",
-      fee: 456125,
-    },
-    {
-      id: 3,
-      name: "Sweety",
-      email: "sweety@gmail.com",
-      phone: 741852912,
-      age: 17,
-      gender: "F",
-      city: "Noida",
-      fee: 458796,
-    },
-    {
-      id: 4,
-      name: "Vikas",
-      email: "vikas@gmail.com",
-      phone: 9876543210,
-      age: 20,
-      gender: "M",
-      city: "Mumbai",
-      fee: 874569,
-    },
-    {
-      id: 5,
-      name: "Neha",
-      email: "neha@gmail.com",
-      phone: 7845621301,
-      age: 25,
-      gender: "F",
-      city: "Patna",
-      fee: 748521,
-    },
-    {
-      id: 6,
-      name: "Mohan",
-      email: "mohan@gmail.com",
-      phone: 7845621590,
-      age: 35,
-      gender: "M",
-      city: "Delhi",
-      fee: 456125,
-    },
-    {
-      id: 7,
-      name: "Sweety",
-      email: "sweety@gmail.com",
-      phone: 741852912,
-      age: 17,
-      gender: "F",
-      city: "Noida",
-      fee: 458796,
-    },
-    {
-      id: 8,
-      name: "Vikas",
-      email: "vikas@gmail.com",
-      phone: 9876543210,
-      age: 20,
-      gender: "M",
-      city: "Mumbai",
-      fee: 874569,
-    },
-    {
-      id: 9,
-      name: "Raj",
-      email: "Raj@gmail.com",
-      phone: 7894561230,
-      age: null,
-      gender: "M",
-      city: "Chennai",
-      fee: 78456,
-    },
-    {
-      id: 10,
-      name: "Mohan",
-      email: "mohan@gmail.com",
-      phone: 7845621590,
-      age: 35,
-      gender: "M",
-      city: "Delhi",
-      fee: 456125,
-    },
-    {
-      id: 11,
-      name: "Sweety",
-      email: "sweety@gmail.com",
-      phone: 741852912,
-      age: 17,
-      gender: "F",
-      city: "Noida",
-      fee: 458796,
-    },
-    {
-      id: 12,
-      name: "Vikas",
-      email: "vikas@gmail.com",
-      phone: 9876543210,
-      age: 20,
-      gender: "M",
-      city: "Mumbai",
-      fee: 874569,
-    },
-  ]);
+  // http://localhost:8000/api/account/add
+  useEffect(() => {
+    const getAllProductLine = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8000/api/account/getAllAccount"
+        );
+        setRows(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAllProductLine();
+  }, []);
 
   const columns = [
-    { title: "Id", field: "id", width: 90, editable: true },
-    { title: "Name", field: "name", width: 120, editable: true },
-    { title: "Email", field: "email", width: 200, editable: true },
-    { title: "Phone Number", field: "phone", width: 120, editable: true },
-    { title: "Age", field: "age", width: 90, editable: true },
-    { title: "Gender", field: "gender", width: 120, editable: true },
-    { title: "City", field: "city", width: 120, editable: true },
-    { title: "School Fee", field: "fee", width: 90, editable: true },
+    { headerName: "Id", field: "_id", width: 250, editable: true },
+    { headerName: "Username", field: "username", width: 120, editable: true },
+    { headerName: "Password", field: "password", width: 120, editable: true },
+    { headerName: "Name", field: "name", width: 120, editable: true },
+    {
+      headerName: "Type Account",
+      field: "typeAccount",
+      width: 150,
+      editable: true,
+    },
+    { headerName: "Location", field: "location", width: 200, editable: true },
   ];
-
   return (
     <div className="accounts">
       <Sidebar />
@@ -178,26 +114,55 @@ export default function AccountManagement() {
           <div onClick={toggleShowCreate} className="overlay"></div>
           <form className="content" onSubmit={handleSubmit(onSubmit)}>
             <label className="row">
-              Name
-              <input {...register("name")} placeholder="enter name" />
-            </label>
-            <label className="row">
               Username
-              <input {...register("username")} placeholder="enter username" />
+              <input
+                {...register("username", { required: true })}
+                placeholder="enter username"
+              />
+              <small>{errors.username && "This field is required"}</small>
+              {errorUsername && <small>{"Username must be unique"}</small>}
             </label>
             <label className="row">
-              Email
-              <input {...register("email")} placeholder="enter email" />
+              Password
+              <input
+                {...register("password", { required: true, minLength: 6 })}
+                placeholder="enter password"
+              />
+              <small>
+                {errors.password?.type === "required" &&
+                  "This field is required"}
+              </small>
+              <small>
+                {errors.password?.type === "minLength" &&
+                  "password minium 6 characters"}
+              </small>
+            </label>
+            <label className="row">
+              Name
+              <input
+                {...register("name", { required: true })}
+                placeholder="enter name"
+              />
+              <small>{errors.name && "This field is required"}</small>
+            </label>
+            <label className="row">
+              Location
+              <input
+                {...register("location", { required: true })}
+                placeholder="enter location"
+              />
+              <small>{errors.location && "This field is required"}</small>
             </label>
             <label className="row">
               Type Account
-              <select {...register("gender")}>
-                <option value="female">female</option>
-                <option value="male">male</option>
-                <option value="other">other</option>
+              <select {...register("typeAccount")}>
+                <option value="Admin">Admin</option>
+                <option value="Distributor">Distributor</option>
+                <option value="Factory">Factory</option>
+                <option value="Servicecenter">Service center</option>
               </select>
             </label>
-            <input type="submit" />
+            <input type="submit" className="submitAccount" />
           </form>
         </div>
       )}

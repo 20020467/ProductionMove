@@ -6,7 +6,7 @@ const router = require("express").Router();
 
 router.post("/add", AccountController.addAccount);
 
-
+router.get("/getAllAccount", AccountController.getAllAccount);
 router.get("/find_by_username", AccountController.FindByUsername);
 
 router.get("/getAllDistributor", AccountController.getAllDistributor);

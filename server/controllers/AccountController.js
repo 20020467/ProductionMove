@@ -5,15 +5,24 @@ const AccountController = {
   addAccount: async (req, res) => {
     const username = req.body.username;
     try {
-
       const acc = await Account.findOne({ username: username });
       if (acc !== null) {
-        res.json("Tài khoản đã tồn tại");
+        res.json({ status: "Account already exists" });
       } else {
         const account = new Account(req.body);
         const saveAccount = await account.save();
-        res.json(saveAccount);
+        res.status(200).json({ status: "success" });
       }
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+
+  // find all account
+  getAllAccount: async (req, res) => {
+    try {
+      const allAccount = await Account.find();
+      res.status(200).json(allAccount);
     } catch (error) {
       res.status(500).json(error);
     }
@@ -32,7 +41,7 @@ const AccountController = {
   //Get all đại lí
   getAllDistributor: async (req, res) => {
     try {
-      const allProduct = await Account.find({"typeAccount" : "Distributor"});
+      const allProduct = await Account.find({ typeAccount: "Distributor" });
       res.status(200).json(allProduct);
     } catch (error) {
       res.status(500).json(error);
@@ -41,17 +50,16 @@ const AccountController = {
 
   getAllFactory: async (req, res) => {
     try {
-      const allProduct = await Account.find({"typeAccount": "Factory"});
+      const allProduct = await Account.find({ typeAccount: "Factory" });
       res.status(200).json(allProduct);
     } catch (error) {
       res.status(500).json(error);
-  }
+    }
   },
-
 
   getAllServiceCenter: async (req, res) => {
     try {
-      const allProduct = await Account.find({"typeAccount" : "Servicecenter"});
+      const allProduct = await Account.find({ typeAccount: "Servicecenter" });
       res.status(200).json(allProduct);
     } catch (error) {
       res.status(500).json(error);
@@ -73,7 +81,6 @@ const AccountController = {
       res.status(500).json(error);
     }
   },
-
 };
 
 module.exports = AccountController;
