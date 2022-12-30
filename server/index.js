@@ -13,6 +13,7 @@ const productLineRoute = require("./routes/productLine");
 const toyProductLineRoute = require("./routes/toyProductLine");
 const toyProductRoute = require("./routes/toyProduct");
 const receiptRoute = require("./routes/receipt");
+const orderRoute = require("./routes/order")
 
 const warrantyRoute = require("./routes/warranty");
 // connect database
@@ -40,6 +41,7 @@ app.use("/api/toyProductLine", toyProductLineRoute);
 app.use("/api/toyProduct", toyProductRoute);
 app.use("/api/receipt", receiptRoute);
 app.use("/api/warranty", warrantyRoute);
+app.use("/api/order", orderRoute)
 
 app.listen(8000, () => {
   console.log("Server is running...");
